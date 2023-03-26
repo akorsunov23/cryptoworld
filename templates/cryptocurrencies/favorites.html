@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Избранное пользователя: {{ request.user.username }}</title>
+</head>
+<body>
+<form action="{% url 'users:main_page' %}" method="get">
+        <input type="submit" value="Главная страница"/>
+    </form>
+<br>
+{% if favorites %}
+    {% for product in favorites.all %}
+        <div>{{ product.cryptocurrencies.base_name }}
+            <ul>
+                <li>Cимвольный код: {{ product.cryptocurrencies.product_id }}</li>
+                <li>Курс, $: {{ product.cryptocurrencies.price }}</li>
+            </ul>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="product" value="{{ product.pk }}">Удалить</button>
+        </form>
+        <hr>
+        {% endfor %}
+{% else %}
+Ничего не нашлось!
+{% endif %}
+</body>
+</html>

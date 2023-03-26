@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+
+<body>
+
+{% if not request.user.is_authenticated %}
+    <h1 style="text-align: center">Добро пожаловать!</h1>
+    <p style="text-align: center">Чтобы продолжить, зарегистрируйтесь или войдите в аккаунт.</p>
+    <form action="{% url 'users:register_user' %}" method="get">
+        <input type="submit" value="Регистрация" style="float: right" />
+    </form>
+    <form action="{% url 'users:login_user' %}" method="get">
+        <input type="submit" value="Войти" style="float: right" />
+    </form>
+{% else %}
+    <h1 style="text-align: center">Добро пожаловать {{ request.user.username }}!</h1>
+    <form action="{% url 'users:logout_user' %}" method="get">
+        <input type="submit" value="Выйти" style="float: right" />
+    </form>
+    <form action="{% url 'cryptocurrencies:favorites' slug=request.user.username %}" method="get">
+        <input type="submit" value="Избранное" style="float: right" />
+    </form>
+    <form action="{% url 'cryptocurrencies:all_product' %}" method="get">
+        <input type="submit" value="Доступные криптовалюты" style="float: right" />
+    </form>
+{% endif %}
+<hr>
+
+<h3>Новости:</h3>
+    <nav class="pagination" style="text-align: center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
+            {% endif %}
+            <span class="current">
+                страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">>>></a>
+            {% endif %}
+        </span>
+    </nav>
+    {% for elem in news %}
+        <div>
+            <p style="color: darkgray; font-style: oblique">{{ elem.publishedAt }} by: {{ elem.author }}</p>
+            <img height="250" width="250" src="{{ elem.urlToImage }}" alt="Нет фотографии">
+            <ul>
+                <li>{{ elem.title }}</li>
+                <li>{{ elem.description }}</li>
+                <li><a href="{{ elem.url }}">Ссылка на новость</a></li>
+            </ul>
+            <br>
+        </div>
+    {% endfor %}
+
+</body>
+</html>

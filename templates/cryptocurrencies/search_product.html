@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Доступные криптовалюты</title>
+</head>
+<body>
+<form action="{% url 'users:main_page' %}" method="get">
+        <input type="submit" value="Главная страница"/>
+    </form>
+<br>
+<form method="get">
+  <input name="search" placeholder="Название или код" type="search">
+  <button type="submit">Поиск</button>
+    <form action="{% url 'cryptocurrencies:all_product' %}" method="get">
+        <input type="submit" value="Отменить"/>
+    </form>
+</form>
+
+<br>
+    <nav class="pagination" style="text-align: center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
+            {% endif %}
+            <span class="current">
+                страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">>>></a>
+            {% endif %}
+        </span>
+    </nav>
+<br>
+    {% for product in products %}
+        <div>{{ product.base_name }}
+            <ul>
+                <li>Cимвольный код: {{ product.product_id }}</li>
+                <li>Текущий курс, $: {{ product.price }}</li>
+                <li>Изменение за последние 24 часа, %: {{ product.price_percentage_change_24h }}</li>
+                <li>Объем торгов: {{ product.volume_24h }}</li>
+            </ul>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="product" value="{{ product.pk }}">Добавить в избранное</button>
+            </form>
+        </div>
+        <hr>
+    {% endfor %}
+</body>
+</html>

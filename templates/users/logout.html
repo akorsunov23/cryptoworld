@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Выход из аккаунта</title>
+</head>
+<body>
+<p>Вы удачно вышли из аккаунта!</p>
+<form action="{% url 'users:main_page' %}" method="get">
+        <input type="submit" value="Главная страница"/>
+    </form>
+</body>
+</html>
