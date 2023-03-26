@@ -36,7 +36,7 @@
         <div>{{ product.base_name }}
             <ul>
                 <li>Cимвольный код: {{ product.product_id }}</li>
-                <li>Текущий курс, $: {{ product.price }}</li>
+                <li>Курс на {{ product.added }}, $: {{ product.price }}</li>
                 <li>Изменение за последние 24 часа, %: {{ product.price_percentage_change_24h }}</li>
                 <li>Объем торгов: {{ product.volume_24h }}</li>
             </ul>

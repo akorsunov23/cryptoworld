@@ -1,8 +1,7 @@
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.http import HttpRequest
+from django.shortcuts import redirect
 from django.views.generic import ListView
 from cryptocurrencies.models import Favorites
-from django.core.exceptions import ObjectDoesNotExist
 from cryptocurrencies.models import Cryptocurrencies
 
 
@@ -48,7 +47,8 @@ class FavoritesView(ListView):
 		queryset = Favorites.objects.filter(slug=self.request.user.username).select_related('cryptocurrencies')
 		return queryset
 
-	def post(self):
-		prod_pk = self.request.POST.get('product')
-		Favorites.objects.get(pk=prod_pk).delete()
-		return redirect('cryptocurrencies:favorites')
+	def post(self, request: HttpRequest, slug):
+		if 'product' in request.POST:
+			prod_pk = self.request.POST.get('product')
+			Favorites.objects.get(pk=prod_pk).delete()
+			return redirect('cryptocurrencies:favorites', slug=slug)

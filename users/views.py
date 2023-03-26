@@ -3,12 +3,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView
-from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from users.models import News
 
 
 class MainView(ListView):
+	"""Главная страница с выводом новостей о криптовалюте."""
 	model = News
 	template_name = 'users/main.html'
 	paginate_by = 4
