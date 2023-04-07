@@ -5,5 +5,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
     path('cryptocurrency/', include('cryptocurrencies.urls')),
-    path('api/', include('cryptocurrencies_api.urls'))
+    path('api/v1/', include('cryptocurrencies_api.urls'))
 ]
